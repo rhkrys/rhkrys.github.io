@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Pugh — Trust Architect</title>
+  <meta name="description" content="Crystal Pugh is a cybersecurity strategist, Virtual CTO, and AI advisor helping nonprofits, mission-driven organizations, and govcon navigate technology with confidence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #0e0e0e;
+      --white: #f8f5f0;
+      --teal: #1a9e78;
+      --teal-light: #e2f5ee;
+      --teal-dim: #0f6e56;
+      --amber: #c47f1a;
+      --amber-light: #fdf0d5;
+      --blue: #2563a8;
+      --blue-light: #e8f0fb;
+      --coral: #c94f2a;
+      --coral-light: #faeae5;
+      --mid: #5a5750;
+      --border: rgba(14,14,14,0.10);
+      --border-strong: rgba(14,14,14,0.18);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 0 2.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(248, 245, 240, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--white) !important;
+      background: var(--black);
+      padding: 0.5rem 1.125rem;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--teal) !important; transform: translateY(-1px); }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--black);
+      transition: transform 0.2s;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      padding: 64px 2.5rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 3rem 5rem 0;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.75rem, 5vw, 4.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-headline .accent {
+      color: var(--teal);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--white);
+      background: var(--black);
+      padding: 0.75rem 1.5rem;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--teal); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--black);
+      padding: 0.75rem 1.25rem;
+      border-radius: 100px;
+      border: 0.5px solid var(--border-strong);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .btn-ghost:hover { background: var(--black); color: var(--white); transform: translateY(-2px); }
+
+    .hero-right {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,158,120,0.15) 0%, transparent 70%);
+    }
+
+    .hero-card-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.4);
+      margin-bottom: 3rem;
+    }
+
+    .hero-card-tag span {
+      display: inline-block;
+      border: 0.5px solid rgba(248,245,240,0.15);
+      padding: 0.25rem 0.625rem;
+      border-radius: 100px;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-tagline .teal { color: var(--teal); }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(248,245,240,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .hero-stat {
+      background: rgba(14,14,14,0.6);
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 1.875rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-stat-num span { color: var(--teal); }
+
+    .hero-stat-label {
+      font-size: 0.6875rem;
+      font-weight: 400;
+      color: rgba(248,245,240,0.45);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── DARK STRIP ─── */
+    #strip {
+      background: var(--black);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      overflow: hidden;
+    }
+
+    .strip-metric {
+      flex-shrink: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 0.375rem;
+    }
+
+    .strip-metric-num {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+
+    .strip-metric-unit {
+      font-size: 0.75rem;
+      color: var(--teal);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .strip-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(248,245,240,0.12);
+      flex-shrink: 0;
+    }
+
+    .strip-scroll {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .strip-scroll::before,
+    .strip-scroll::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 60px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .strip-scroll::before { left: 0; background: linear-gradient(to right, var(--black), transparent); }
+    .strip-scroll::after  { right: 0; background: linear-gradient(to left, var(--black), transparent); }
+
+    .strip-track {
+      display: flex;
+      gap: 2rem;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .strip-client {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: rgba(248,245,240,0.35);
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 7rem 2.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--black);
+    }
+
+    .section-title em { font-style: italic; color: var(--teal); }
+
+    .section-link {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--mid);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+
+    .section-link:hover { color: var(--black); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 2.5rem;
+      position: relative;
+      transition: background 0.3s var(--ease);
+    }
+
+    .service-card:hover { background: #f3f0ea; }
+
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(14,14,14,0.15);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-accent {
+      display: block;
+      width: 28px;
+      height: 3px;
+      border-radius: 2px;
+      margin-bottom: 1.25rem;
+    }
+
+    .service-card:nth-child(1) .service-accent { background: var(--teal); }
+    .service-card:nth-child(2) .service-accent { background: var(--blue); }
+    .service-card:nth-child(3) .service-accent { background: var(--amber); }
+    .service-card:nth-child(4) .service-accent { background: var(--coral); }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--black);
+      margin-bottom: 0.875rem;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .service-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.25rem 0.625rem;
+      border-radius: 100px;
+      letter-spacing: 0.03em;
+    }
+
+    .service-card:nth-child(1) .service-tag { background: var(--teal-light); color: var(--teal-dim); }
+    .service-card:nth-child(2) .service-tag { background: var(--blue-light); color: var(--blue); }
+    .service-card:nth-child(3) .service-tag { background: var(--amber-light); color: var(--amber); }
+    .service-card:nth-child(4) .service-tag { background: var(--coral-light); color: var(--coral); }
+
+    .service-outcome {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--black);
+      padding-top: 1.25rem;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .service-outcome strong { font-weight: 500; }
+
+    /* ─── WHO ─── */
+    #who {
+      padding: 0 2.5rem 7rem;
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .who-card {
+      border: 0.5px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 2rem 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .who-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+
+    .who-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.125rem;
+    }
+
+    .who-card:nth-child(1) .who-icon { background: var(--teal-light); }
+    .who-card:nth-child(2) .who-icon { background: var(--amber-light); }
+    .who-card:nth-child(3) .who-icon { background: var(--blue-light); }
+
+    .who-title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .who-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ─── WORK ─── */
+    #work {
+      background: var(--black);
+      padding: 7rem 2.5rem;
+    }
+
+    #work .section-eyebrow { color: var(--teal); }
+
+    #work .section-title { color: var(--white); }
+
+    #work .section-title em { color: var(--teal); }
+
+    #work .section-link { color: rgba(248,245,240,0.4); }
+    #work .section-link:hover { color: var(--white); }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .work-card {
+      border: 0.5px solid rgba(248,245,240,0.08);
+      border-radius: 14px;
+      padding: 2rem;
+      background: rgba(248,245,240,0.03);
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .work-card:hover { background: rgba(248,245,240,0.06); border-color: rgba(26,158,120,0.35); transform: translateY(-3px); }
+
+    .work-card-tag {
+      display: inline-flex;
+      gap: 0.375rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .work-pill {
+      font-size: 0.625rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(26,158,120,0.12);
+      border: 0.5px solid rgba(26,158,120,0.25);
+      padding: 0.2rem 0.5rem;
+      border-radius: 100px;
+    }
+
+    .work-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.015em;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .work-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: rgba(248,245,240,0.45);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .work-outcome {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: rgba(248,245,240,0.7);
+      padding-top: 1.125rem;
+      border-top: 0.5px solid rgba(248,245,240,0.08);
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 7rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-left {}
+
+    .about-pullquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--black);
+      letter-spacing: -0.015em;
+      margin-bottom: 2rem;
+    }
+
+    .about-pullquote span { color: var(--teal); }
+
+    .about-body {
+      font-size: 0.9375rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .about-credentials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cred-pill {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--black);
+      background: transparent;
+      border: 0.5px solid var(--border-strong);
+      padding: 0.35rem 0.75rem;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+
+    .about-right {}
+
+    .about-card {
+      background: var(--black);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,158,120,0.12) 0%, transparent 70%);
+    }
+
+    .about-card-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.35);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-ventures {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: rgba(248,245,240,0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .venture-item {
+      background: rgba(14,14,14,0.5);
+      padding: 1rem 1.125rem;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    .venture-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .venture-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .venture-role {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(248,245,240,0.4);
+      margin-left: auto;
+    }
+
+    .about-anchor {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1.4;
+    }
+
+    /* ─── SPEAKING ─── */
+    #speaking {
+      background: #f3f0ea;
+      padding: 7rem 2.5rem;
+    }
+
+    .speaking-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .speaking-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .topic-pill {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--black);
+      background: var(--white);
+      border: 0.5px solid var(--border-strong);
+      padding: 0.4rem 0.875rem;
+      border-radius: 100px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .topic-pill:hover { background: var(--black); color: var(--white); cursor: default; }
+
+    .speaking-formats {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .format-item {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .format-item:first-child { border-radius: 12px 12px 0 0; }
+    .format-item:last-child  { border-radius: 0 0 12px 12px; }
+
+    .format-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--teal-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .format-title {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.125rem;
+    }
+
+    .format-desc {
+      font-size: 0.8125rem;
+      font-weight: 300;
+      color: var(--mid);
+    }
+
+    .speaking-cta {
+      margin-top: 2rem;
+    }
+
+    .speaking-right {}
+
+    .speaking-engagements {}
+
+    .engagement-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.25rem;
+    }
+
+    .engagement-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .engagement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      padding: 1rem 1.25rem;
+      background: var(--white);
+      border-radius: 10px;
+      border: 0.5px solid var(--border);
+    }
+
+    .engagement-mark {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-top: 0.45rem;
+      flex-shrink: 0;
+    }
+
+    .engagement-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.2rem;
+    }
+
+    .engagement-detail {
+      font-size: 0.8125rem;
+      font-weight: 300;
+      color: var(--mid);
+    }
+
+    /* ─── CTA FOOTER ─── */
+    #cta {
+      background: var(--black);
+      padding: 7rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,158,120,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-headline em { font-style: italic; color: var(--teal); }
+
+    .cta-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(248,245,240,0.45);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.65;
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--black);
+      background: var(--teal);
+      padding: 0.875rem 1.75rem;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-teal:hover { background: #22c492; transform: translateY(-2px); }
+
+    .btn-outline-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 400;
+      color: rgba(248,245,240,0.65);
+      padding: 0.875rem 1.5rem;
+      border-radius: 100px;
+      border: 0.5px solid rgba(248,245,240,0.2);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline-white:hover { border-color: rgba(248,245,240,0.5); color: var(--white); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      border-top: 0.5px solid rgba(248,245,240,0.06);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: rgba(248,245,240,0.3);
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: var(--teal); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: rgba(248,245,240,0.3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: rgba(248,245,240,0.7); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(248,245,240,0.2);
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.25rem; }
+
+      #hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 64px;
+      }
+
+      .hero-left { padding: 3.5rem 0 2rem; }
+      .hero-right { min-height: 320px; padding: 2.5rem 1.5rem; }
+
+      #strip { gap: 1.5rem; padding: 1.5rem 1.25rem; }
+      .strip-metric-num { font-size: 1.75rem; }
+
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      #services { padding: 4rem 1.25rem; }
+      .services-grid { grid-template-columns: 1fr; }
+
+      #who { padding: 0 1.25rem 4rem; }
+      .who-grid { grid-template-columns: 1fr; }
+
+      #work { padding: 4rem 1.25rem; }
+      .work-grid { grid-template-columns: 1fr; }
+
+      #about { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.25rem; }
+
+      #speaking { padding: 4rem 1.25rem; }
+      .speaking-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      #cta { padding: 5rem 1.25rem; }
+
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem 1.25rem; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">CP<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#speaking">Speaking</a></li>
+      <li><a href="https://linkedin.com/in/crystalpugh" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+      <li><a href="mailto:crystal@cpconsultingservices.com" class="nav-cta">Book a call</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow reveal">Trust Architect · Brooklyn, NY</div>
+      <h1 class="hero-headline reveal reveal-delay-1">
+        I don't sell<br>
+        <em class="accent">technology.</em><br>
+        I build the<br>
+        trust that<br>
+        makes it work.
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Crystal Pugh helps nonprofits, mission-driven organizations, and govcon navigate cybersecurity, AI, and technology strategy with clarity and confidence.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="mailto:crystal@cpconsultingservices.com" class="btn-primary">Book a discovery call →</a>
+        <a href="#work" class="btn-ghost">See my work</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card-tag reveal"><span>CEO &amp; Founder · CPI</span></div>
+      <blockquote class="hero-tagline reveal reveal-delay-1">
+        "Security isn't a product.<br>
+        It's a <span class="teal">posture</span>."
+      </blockquote>
+      <div class="hero-stats reveal reveal-delay-2">
+        <div class="hero-stat">
+          <div class="hero-stat-num">15<span>+</span></div>
+          <div class="hero-stat-label">Years</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">40<span>+</span></div>
+          <div class="hero-stat-label">Clients</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-label">Ventures</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK STRIP -->
+  <div id="strip">
+    <div class="strip-metric">
+      <div class="strip-metric-num">40+</div>
+      <div class="strip-metric-unit">Organizations protected</div>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-scroll">
+      <div class="strip-track">
+        <span class="strip-client">Towne Mortgage</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Freelancers Union</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Restore NYC</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Octavian Capital</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">ANP</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">CitiHealth</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">UFT Teacher Center</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Black Girls Code</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Girls Who Code</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Tech Fleet</span>
+        <!-- duplicate for seamless loop -->
+        <span class="strip-client">Towne Mortgage</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Freelancers Union</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Restore NYC</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Octavian Capital</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">ANP</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">CitiHealth</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">UFT Teacher Center</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Black Girls Code</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Girls Who Code</span>
+        <span class="strip-client">·</span>
+        <span class="strip-client">Tech Fleet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">What I do</div>
+        <h2 class="section-title">Services built for<br><em>mission-driven work</em></h2>
+      </div>
+      <a href="mailto:crystal@cpconsultingservices.com" class="section-link">All services →</a>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <span class="service-accent"></span>
+        <h3 class="service-title">Cybersecurity &amp; Compliance</h3>
+        <p class="service-desc">Protect your organization's most critical systems and data. Risk assessments, regulatory guidance, and resilient security practices — without overwhelming your team.</p>
+        <div class="service-tags">
+          <span class="service-tag">Risk Assessments</span>
+          <span class="service-tag">HIPAA / NIST</span>
+          <span class="service-tag">Incident Response</span>
+          <span class="service-tag">Security Monitoring</span>
+        </div>
+        <div class="service-outcome"><strong>Outcome:</strong> Clear visibility into risk, a practical remediation plan, and a team that knows what to do next.</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">02</div>
+        <span class="service-accent"></span>
+        <h3 class="service-title">Virtual CTO &amp; Tech Strategy</h3>
+        <p class="service-desc">Executive-level technology leadership without the full-time hire. Aligning your tech roadmap to your growth goals and operational reality.</p>
+        <div class="service-tags">
+          <span class="service-tag">Tech Roadmaps</span>
+          <span class="service-tag">Vendor Evaluation</span>
+          <span class="service-tag">Data Protection</span>
+          <span class="service-tag">Governance</span>
+        </div>
+        <div class="service-outcome"><strong>Outcome:</strong> Leaders gain clarity, trusted guidance, and technology that actually serves the mission.</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">03</div>
+        <span class="service-accent"></span>
+        <h3 class="service-title">AI &amp; Automation for Operations</h3>
+        <p class="service-desc">Reduce manual work and create smarter systems. Practical AI and workflow automation that frees your team to focus on higher-value work.</p>
+        <div class="service-tags">
+          <span class="service-tag">Workflow Automation</span>
+          <span class="service-tag">AI Integration</span>
+          <span class="service-tag">Secure AI Adoption</span>
+          <span class="service-tag">Process Design</span>
+        </div>
+        <div class="service-outcome"><strong>Outcome:</strong> Organizations reclaim time, reduce friction, and scale without adding headcount.</div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">04</div>
+        <span class="service-accent"></span>
+        <h3 class="service-title">Secure App &amp; System Development</h3>
+        <p class="service-desc">Build technology the right way from day one. Security, scalability, and compliance built in — not bolted on after a breach.</p>
+        <div class="service-tags">
+          <span class="service-tag">App Security</span>
+          <span class="service-tag">Architecture Advisory</span>
+          <span class="service-tag">Compliance Integration</span>
+          <span class="service-tag">Product Risk</span>
+        </div>
+        <div class="service-outcome"><strong>Outcome:</strong> Projects launch with strong foundations and fewer costly surprises down the road.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO -->
+  <section id="who">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Who I work with</div>
+        <h2 class="section-title">Built for organizations<br><em>doing real work</em></h2>
+      </div>
+    </div>
+
+    <div class="who-grid">
+      <div class="who-card reveal">
+        <div class="who-icon">🌱</div>
+        <h3 class="who-title">Nonprofits &amp; Social Enterprises</h3>
+        <p class="who-desc">Mission-driven organizations handling sensitive data — community health, housing, education — that need enterprise-grade security without enterprise-sized budgets.</p>
+      </div>
+      <div class="who-card reveal reveal-delay-1">
+        <div class="who-icon">🚀</div>
+        <h3 class="who-title">Startup Founders</h3>
+        <p class="who-desc">Founders building technology products who want security and compliance designed in from the start, not retrofitted after their first incident.</p>
+      </div>
+      <div class="who-card reveal reveal-delay-2">
+        <div class="who-icon">🏛️</div>
+        <h3 class="who-title">Govcon &amp; Regulated Orgs</h3>
+        <p class="who-desc">Small and mid-sized organizations in regulated environments — healthcare, government contracting, financial services — navigating compliance without a full IT department.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Featured work</div>
+        <h2 class="section-title">Trust built<br><em>in the real world</em></h2>
+      </div>
+    </div>
+
+    <div class="work-grid">
+      <div class="work-card reveal">
+        <div class="work-card-tag">
+          <span class="work-pill">AI</span>
+          <span class="work-pill">Privacy Tech</span>
+          <span class="work-pill">Co-Founder</span>
+        </div>
+        <h3 class="work-title">TrustCloak</h3>
+        <p class="work-desc">Co-founded an AI-powered video privacy technology venture addressing surveillance and identity exposure in public and institutional video systems.</p>
+        <div class="work-outcome">IP licensing model · API subscriptions into VMS infrastructure · Govcon pipeline</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-card-tag">
+          <span class="work-pill">Healthcare</span>
+          <span class="work-pill">HIPAA</span>
+          <span class="work-pill">AI Build</span>
+        </div>
+        <h3 class="work-title">HIPAA-Compliant AI Chatbot</h3>
+        <p class="work-desc">Live build of a HIPAA-compliant AI chatbot for a medical client — documenting the architecture, compliance controls, and implementation decisions in real time.</p>
+        <div class="work-outcome">Secure AI adoption · Regulatory compliance · End-to-end architecture</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-2">
+        <div class="work-card-tag">
+          <span class="work-pill">Nonprofit</span>
+          <span class="work-pill">Cybersecurity</span>
+          <span class="work-pill">MSP</span>
+        </div>
+        <h3 class="work-title">Nonprofit Cyber Uplift</h3>
+        <p class="work-desc">End-to-end cybersecurity risk assessment and remediation for mission-driven organizations — translating complex risk into practical, affordable action plans.</p>
+        <div class="work-outcome">Risk visibility · Remediation roadmap · Staff training</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-left reveal">
+      <div class="section-eyebrow">About Crystal</div>
+      <blockquote class="about-pullquote">
+        "Technology is just a tool.<br>
+        <span>Trust is the infrastructure.</span>"
+      </blockquote>
+      <p class="about-body">
+        Crystal Pugh is a Brooklyn-based cybersecurity strategist, Virtual CTO, and AI advisor with over 15 years spanning technology consulting, organizational change management, and learning &amp; development. She founded Cyber Protection Consulting Services Inc. (CPI) to give nonprofits, social enterprises, and mission-driven organizations access to the kind of strategic technology leadership that usually only comes with a Fortune 500 budget.
+      </p>
+      <p class="about-body">
+        Her work is grounded in a simple belief: that trust is not a feature you add at the end of a project. It is the architecture. That conviction shapes every engagement — from govcon compliance strategy to HIPAA-compliant AI builds to board-level technology governance.
+      </p>
+      <div class="about-credentials">
+        <span class="cred-pill">CEO, CPI</span>
+        <span class="cred-pill">Board Member, FINY</span>
+        <span class="cred-pill">Black Girls Code</span>
+        <span class="cred-pill">Girls Who Code</span>
+        <span class="cred-pill">Tech Fleet Instructor</span>
+        <span class="cred-pill">CCNY Communications</span>
+      </div>
+    </div>
+
+    <div class="about-right reveal reveal-delay-1">
+      <div class="about-card">
+        <div class="about-card-label">Ventures &amp; roles</div>
+        <div class="about-ventures">
+          <div class="venture-item">
+            <div class="venture-dot"></div>
+            <div class="venture-name">CPI</div>
+            <div class="venture-role">CEO &amp; Founder</div>
+          </div>
+          <div class="venture-item">
+            <div class="venture-dot"></div>
+            <div class="venture-name">TrustCloak</div>
+            <div class="venture-role">Co-Founder</div>
+          </div>
+          <div class="venture-item">
+            <div class="venture-dot"></div>
+            <div class="venture-name">Tech Fleet</div>
+            <div class="venture-role">Servant Leadership Instructor</div>
+          </div>
+          <div class="venture-item">
+            <div class="venture-dot"></div>
+            <div class="venture-name">FINY</div>
+            <div class="venture-role">Board Member</div>
+          </div>
+          <div class="venture-item">
+            <div class="venture-dot"></div>
+            <div class="venture-name">New Hope Ministry</div>
+            <div class="venture-role">Co-Leader</div>
+          </div>
+        </div>
+        <div class="about-anchor">"I finish. I ship. I belong."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKING -->
+  <section id="speaking">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Speaking &amp; Teaching</div>
+        <h2 class="section-title">Making complex tech<br><em>land with any room</em></h2>
+      </div>
+      <a href="mailto:crystal@cpconsultingservices.com" class="section-link">Book Crystal →</a>
+    </div>
+
+    <div class="speaking-grid">
+      <div>
+        <div class="speaking-topics reveal">
+          <span class="topic-pill">AI Literacy</span>
+          <span class="topic-pill">Cybersecurity for Nonprofits</span>
+          <span class="topic-pill">Servant Leadership</span>
+          <span class="topic-pill">Trust &amp; Technology</span>
+          <span class="topic-pill">Women in Cybersecurity</span>
+          <span class="topic-pill">Govcon &amp; Compliance</span>
+          <span class="topic-pill">AI Adoption Strategy</span>
+          <span class="topic-pill">Digital Transformation</span>
+        </div>
+
+        <div class="speaking-formats reveal reveal-delay-1">
+          <div class="format-item">
+            <div class="format-icon">🎤</div>
+            <div>
+              <div class="format-title">Keynote</div>
+              <div class="format-desc">Conference and summit presentations on AI, trust, and technology leadership</div>
+            </div>
+          </div>
+          <div class="format-item">
+            <div class="format-icon">🛠️</div>
+            <div>
+              <div class="format-title">Workshop</div>
+              <div class="format-desc">Hands-on AI literacy and cybersecurity awareness for teams and staff</div>
+            </div>
+          </div>
+          <div class="format-item">
+            <div class="format-icon">📚</div>
+            <div>
+              <div class="format-title">Masterclass</div>
+              <div class="format-desc">Servant Leadership Masterclass at Tech Fleet — cohort-based, application-focused</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="speaking-cta reveal reveal-delay-2">
+          <a href="mailto:crystal@cpconsultingservices.com" class="btn-primary">Inquire about booking →</a>
+        </div>
+      </div>
+
+      <div class="speaking-right reveal reveal-delay-1">
+        <div class="engagement-label">Past engagements</div>
+        <div class="engagement-list">
+          <div class="engagement-item">
+            <div class="engagement-mark"></div>
+            <div>
+              <div class="engagement-name">Tech Fleet</div>
+              <div class="engagement-detail">Servant Leadership Masterclass Instructor</div>
+            </div>
+          </div>
+          <div class="engagement-item">
+            <div class="engagement-mark"></div>
+            <div>
+              <div class="engagement-name">Black Girls Code</div>
+              <div class="engagement-detail">Chapter Lead · Technology Education</div>
+            </div>
+          </div>
+          <div class="engagement-item">
+            <div class="engagement-mark"></div>
+            <div>
+              <div class="engagement-name">Girls Who Code</div>
+              <div class="engagement-detail">Instructor · Coding &amp; Digital Skills</div>
+            </div>
+          </div>
+          <div class="engagement-item">
+            <div class="engagement-mark"></div>
+            <div>
+              <div class="engagement-name">UFT Teacher Center</div>
+              <div class="engagement-detail">Technology training for 1,000+ educators</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-eyebrow reveal">Start here</div>
+    <h2 class="cta-headline reveal reveal-delay-1">
+      Let's build<br>
+      <em>something secure.</em>
+    </h2>
+    <p class="cta-sub reveal reveal-delay-2">
+      If you're navigating compliance, exploring AI adoption, or need strategic technology leadership — the first step is a conversation.
+    </p>
+    <div class="cta-actions reveal reveal-delay-3">
+      <a href="mailto:crystal@cpconsultingservices.com" class="btn-teal">Book a discovery call →</a>
+      <a href="https://linkedin.com/in/crystalpugh" target="_blank" rel="noopener" class="btn-outline-white">Connect on LinkedIn ↗</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">CP<span>.</span></a>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#speaking">Speaking</a></li>
+      <li><a href="https://linkedin.com/in/crystalpugh" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    </ul>
+    <span class="footer-copy">&copy; 2026 Crystal Pugh · CPI</span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Trigger hero reveals immediately
+    document.querySelectorAll('#hero .reveal, #strip .reveal').forEach(el => {
+      el.classList.add('visible');
+    });
+  </script>
+
+</body>
+</html>
